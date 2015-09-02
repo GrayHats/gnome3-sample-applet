@@ -23,6 +23,9 @@ def update_ind_label():
     value = glib.timeout_add_seconds(5, handler_timeout)
 
 def handler_timeout():
+    p = subprocess.Popen("ps -eo pid,command | grep 'tomcat' | grep -v grep | awk '{print $1}'", stdout=subprocess.PIPE, shell=True)
+    (output, err) = p.communicate()
+    pid = output.decode("utf-8").replace("\n","")
     indicator.set_label(pid, '')
     return True
 
